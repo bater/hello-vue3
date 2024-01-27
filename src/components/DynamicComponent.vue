@@ -8,22 +8,30 @@
     @click="currentTab = tab">
     {{ tab }}
   </button>
-  <component :is="currentTabComponent"></component>
+  <keep-alive include="tab-home,tab-posts" :max="2">
+    <component :is="currentTabComponent"></component>
+  </keep-alive>
 </div>
 </template>
 <script>
 import { defineComponent } from 'vue';
 
 const TabHome = defineComponent({
-  template: `<div class="demo-tab">Home component</div>`
+  name: 'tab-home',
+  template: `<div class="demo-tab"><input v-model="title"></div>`,
+  data: () => ({ title: 'Home component' })
 })
 
 const TabPosts = defineComponent({
-  template: `<div class="demo-tab">Posts component</div>`
+  name: 'tab-posts',
+  template: `<div class="demo-tab"><input v-model="title"></div>`,
+  data: () => ({ title: 'Posts component' })
 })
 
 const TabArchive = defineComponent({
-  template: `<div class="demo-tab">Archive component</div>`
+  name: 'tab-archive',
+  template: `<div class="demo-tab"><input v-model="title"></div>`,
+  data: () => ({ title: 'Archive component' })
 })
 
 export default defineComponent({
@@ -83,5 +91,11 @@ export default defineComponent({
   li {
     margin-bottom: 1.5rem;
   }
+}
+
+input {
+  min-width: 350px;
+  padding: 3px 5px;
+  font-size: 1rem;
 }
 </style>
