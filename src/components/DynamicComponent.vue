@@ -9,8 +9,13 @@
     {{ tab }}
   </button>
   <keep-alive include="tab-home,tab-posts" :max="2">
-    <component :is="currentTabComponent"></component>
+    <component :is="currentTabComponent" @update="notify"></component>
   </keep-alive>
+
+  <ul class="inspector">
+    <li v-for="(m, index) in msgs" :key="index">{{ m }}</li>
+  </ul>
+
 </div>
 </template>
 <script>
@@ -19,19 +24,64 @@ import { defineComponent } from 'vue';
 const TabHome = defineComponent({
   name: 'tab-home',
   template: `<div class="demo-tab"><input v-model="title"></div>`,
-  data: () => ({ title: 'Home component' })
+  data: () => ({ title: 'Home component' }),
+  created() {
+    this.$emit('update', `${this.$options.name} Created.`);
+  },
+  mounted() {
+    this.$emit('update', `${this.$options.name} Mounted.`);
+  },
+  unmounted() {
+    this.$emit('update', `${this.$options.name} Unmounted.`);
+  },
+  activated() {
+    this.$emit('update', `${this.$options.name} Activated.`);
+  },
+  deactivated() {
+    this.$emit('update', `${this.$options.name} Deactivated.`);
+  },
 })
 
 const TabPosts = defineComponent({
   name: 'tab-posts',
   template: `<div class="demo-tab"><input v-model="title"></div>`,
-  data: () => ({ title: 'Posts component' })
+  data: () => ({ title: 'Posts component' }),
+  created() {
+    this.$emit('update', `${this.$options.name} Created.`);
+  },
+  mounted() {
+    this.$emit('update', `${this.$options.name} Mounted.`);
+  },
+  unmounted() {
+    this.$emit('update', `${this.$options.name} Unmounted.`);
+  },
+  activated() {
+    this.$emit('update', `${this.$options.name} Activated.`);
+  },
+  deactivated() {
+    this.$emit('update', `${this.$options.name} Deactivated.`);
+  },
 })
 
 const TabArchive = defineComponent({
   name: 'tab-archive',
   template: `<div class="demo-tab"><input v-model="title"></div>`,
-  data: () => ({ title: 'Archive component' })
+  data: () => ({ title: 'Archive component' }),
+  created() {
+    this.$emit('update', `${this.$options.name} Created.`);
+  },
+  mounted() {
+    this.$emit('update', `${this.$options.name} Mounted.`);
+  },
+  unmounted() {
+    this.$emit('update', `${this.$options.name} Unmounted.`);
+  },
+  activated() {
+    this.$emit('update', `${this.$options.name} Activated.`);
+  },
+  deactivated() {
+    this.$emit('update', `${this.$options.name} Deactivated.`);
+  },
 })
 
 export default defineComponent({
@@ -43,17 +93,23 @@ export default defineComponent({
   data() {
     return {
       currentTab: 'Home',
-      tabs: ['Home', 'Posts', 'Archive']
+      tabs: ['Home', 'Posts', 'Archive'],
+      msgs: []
     }
   },
   computed: {
     currentTabComponent() {
       return `Tab${ this.currentTab }`;
     }
+  },
+  methods: {
+    notify(val) {
+      this.msgs.push(val);
+    }
   }
 });
-
 </script>
+
 <style scoped>
 #app6 {
   font-family: sans-serif;
@@ -98,4 +154,24 @@ input {
   padding: 3px 5px;
   font-size: 1rem;
 }
+
+.inspector {
+    margin: 1.5rem 0;
+    display: block;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    font-size: #333;
+    font-family: Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace;
+    width: 94%;
+    height: 7rem;
+    overflow-y: scroll;
+    padding: 0 10px;
+
+    li {
+      font-size: 14px;
+      line-height: 1.33rem;
+      padding: 0;
+      list-style: none;
+    }
+  }
 </style>
