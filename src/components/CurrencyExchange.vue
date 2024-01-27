@@ -1,8 +1,10 @@
 <template>
+  <h2>匯率換算</h2>
   <p>假設, 1 日幣 = 0.209 台幣, 且 1 美金 = 31.406 台幣: </p>
   <div>台幣 <input type="text" v-model="twd"></div>
   <div>日幣 <input type="text" v-model="jpy"></div>
   <div>美金 <input type="text" v-model="usd"></div>
+  <hr>
 </template>
 
 <script>
